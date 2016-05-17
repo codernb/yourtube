@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="yourtube">
+    <head>
+        <meta charset="UTF-8">
+        <script src="angular.min.js"></script>
+        <script src="https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.4/build/js/onsenui.min.js"></script>
+        <script src="https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.4/build/js/onsenui.min.js"></script>
+        <script src="script.js"></script>
+        <link rel="stylesheet" href="https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.4/build/css/onsenui.css">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/OnsenUI/OnsenUI/1.3.4/build/css/onsen-css-components.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body ng-controller="MainController">
+        
+        <ons-page>
+            <div id="placeholder" style="width: 100%; height: 600px"></div>
+            <ons-list>
+                <ons-list-item class="list-item-container" modifier="tappable" ng-repeat="video in videos" ng-click="remove(video)">
+                    <ons-row>
+                        <ons-col width="95px">
+                            <img class="thumbnail" ng-src="{{ video.thumbnail }}">
+                        </ons-col>
+                        <ons-col>
+                            <div class="title">
+                                {{ video.title }}
+                            </div>
+                            <div class="user">
+                                <ons-icon icon="fa fa-user"><span style="font-size: 12px"> {{ video.author ? video.author : "Anonymous" }}</span></ons-icon>
+                            </div>
+                            <div class="desc">
+                                {{ video.description }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="40px"></ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </ons-page>
+        
+    </body>
+</html>
