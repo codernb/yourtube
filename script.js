@@ -136,13 +136,14 @@ app.controller('MainController', function ($scope, $http, $interval, VideosServi
             $scope.update();
         });
         $http.get('/?volume').success (function (data) {
-            $scope.youtube.player.setVolume(data);
+            if ($scope.youtube.player.getVolume() !== data)
+                $scope.youtube.player.setVolume(data);
         });
         var state = $scope.youtube.player.getPlayerState();
         if (!$scope.youtube.ready || (state !== -1 && state !== 5 && state !== 0))
             return;
         $scope.next();
-    }, 3000);
+    }, 1000);
     
 });
 
