@@ -96,8 +96,14 @@ app.controller('MainController', function($scope, $http, $interval, VideosServic
     $scope.youtube = VideosService.getYoutube();
     
     $scope.next = function() {
-        $http.get('/yourtube?next').success(function (data) {
+        $http.get('/?next').success(function (data) {
             $scope.launch(data.id);
+        });
+    };
+    
+    $scope.clear = function() {
+        $http.get('/?clear').success(function (data) {
+            $scope.update();
         });
     };
     
@@ -108,23 +114,22 @@ app.controller('MainController', function($scope, $http, $interval, VideosServic
     $scope.remove = function(video) {
         video = JSON.stringify(video);
         video = encodeURIComponent(video);
-        $http.get('/yourtube?remove=' + video).success(function (data) {
+        $http.get('/?remove=' + video).success(function (data) {
             $scope.update();
         });
     }
     
     $scope.update = function() {
-        $http.get('/yourtube?update').success(function (data) {
+        $http.get('/?update').success(function (data) {
             data = Object.keys(data).map(function (key) {return data[key]});
             for (var i = 0; i < data.length; i++)
                 data[i] = JSON.parse(data[i]);
-            console.log(typeof data);
             $scope.videos = data;
         });
     }
     
     $interval(function(){
-        $http.get('/yourtube?version').success(function (data) {
+        $http.get('/?version').success(function (data) {
             if ($scope.version === data)
                 return;
             $scope.version = data;
@@ -145,8 +150,9 @@ app.controller('UIController', function($scope, $http, $interval, VideosService)
     $scope.update = function() {
         $http.get('?update').success(function (data) {
             data = Object.keys(data).map(function (key) {return data[key]});
-            for (var i = 0; i < data.length; i++)
+            for (var i = 0; i < data.length; i++) {
                 data[i] = JSON.parse(data[i]);
+            }
             $scope.videos = data;
         });
     };

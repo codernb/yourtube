@@ -11,9 +11,10 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body ng-controller="MainController">
-        
         <ons-page>
             <div id="placeholder" style="width: 100%; height: 600px"></div>
+            <ons-button modifier="large--cta" ng-click="next()">Next</ons-button>
+            <ons-button modifier="large--cta" ng-click="clear()">Clear</ons-button>
             <ons-list>
                 <ons-list-item class="list-item-container" modifier="tappable" ng-repeat="video in videos" ng-click="remove(video)">
                     <ons-row>
@@ -36,6 +37,5 @@
                 </ons-list-item>
             </ons-list>
         </ons-page>
-        
     </body>
 </html>

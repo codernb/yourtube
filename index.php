@@ -18,6 +18,11 @@ if (isset($_GET['video'])) {
     $version += 1;
     apc_store('videos', $videos);
     apc_store('version', $version);
+} else if (isset($_GET['clear'])) {
+    $videos = [];
+    $version += 1;
+    apc_store('videos', $videos);
+    apc_store('version', $version);
 } else if (isset($_GET['remove'])) {
     if(($key = array_search($_GET['remove'], $videos)) !== false) {
         unset($videos[$key]);
