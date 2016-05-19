@@ -91,7 +91,7 @@ app.service('VideosService', ['$window', '$rootScope', function ($window, $rootS
 
 }]);
 
-app.controller('MainController', function($scope, $http, $interval, VideosService) {
+app.controller('MainController', function ($scope, $http, $interval, VideosService) {
 
     $scope.youtube = VideosService.getYoutube();
     
@@ -135,6 +135,9 @@ app.controller('MainController', function($scope, $http, $interval, VideosServic
             $scope.version = data;
             $scope.update();
         });
+        $http.get('/?volume').success (function (data) {
+            $scope.youtube.player.setVolume(data);
+        });
         var state = $scope.youtube.player.getPlayerState();
         if (!$scope.youtube.ready || (state !== -1 && state !== 5 && state !== 0))
             return;
@@ -143,7 +146,7 @@ app.controller('MainController', function($scope, $http, $interval, VideosServic
     
 });
 
-app.controller('UIController', function($scope, $http, $interval, VideosService) {
+app.controller('UIController', function ($scope, $http, $interval, VideosService) {
 
     $scope.results = VideosService.getResults();
     
@@ -157,12 +160,20 @@ app.controller('UIController', function($scope, $http, $interval, VideosService)
         });
     };
     
-    $scope.enterVideo = function(video) {
+    $scope.enterVideo = function (video) {
         video = JSON.stringify(video);
         video = encodeURIComponent(video);
         $http.get('?video=' + video).success(function (data) {
             $scope.update();
         });
+    };
+    
+    $scope.volumeUp = function () {
+        $http.get('?volumeup');
+    };
+    
+    $scope.volumeDown = function () {
+        $http.get('?volumedown');
     };
     
     $interval(function(){

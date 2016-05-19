@@ -12,8 +12,10 @@
     </head>
     <body ng-controller="UIController">
         <ons-tabbar>
+            <ons-tab ng-click="volumeDown()" icon="fa fa-volume-down" label="Volume Down"></ons-tab>
+            <ons-tab ng-click="volumeUp()" no-reload icon="fa fa-volume-up" label="Volume Up"></ons-tab>
             <ons-tab page="html/search.html" persistent no-reload active="true" icon="fa fa-search" label="Search"></ons-tab>
-            <ons-tab page="html/history.html" persistent no-reload  icon="fa fa-history" label="Next"></ons-tab>
+            <ons-tab page="html/history.html" persistent no-reload  icon="fa fa-youtube-play" label="Next"></ons-tab>
         </ons-tabbar>
     </body>
 </html>
