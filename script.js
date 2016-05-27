@@ -195,7 +195,7 @@ app.controller('UIController', function ($scope, $http, $interval, VideosService
             $scope.update();
         });
     }, 3000);
-
+    
     $scope.search = function (isNewQuery) {
       $scope.loading = true;
       $http.get('https://www.googleapis.com/youtube/v3/search', {

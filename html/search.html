@@ -1,7 +1,7 @@
 <ons-page>
     <div class="search-bar youtube-toolbar">
         <form ng-submit="search(true)">
-            <input type="search" class="search-input" placeholder="Search for videos in YouTube" ng-model="query">
+            <input type="search" class="search-input" placeholder="Search for videos in YouTube" ng-model="query" ng-change="search(true)">
         </form>
     </div>
     <ons-list class="after-search-bar">
