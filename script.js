@@ -11,7 +11,7 @@ app.config( function ($httpProvider) {
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
-app.service('VideosService', ['$window', '$rootScope', function ($window, $rootScope) {
+app.service('VideosService', ['$window', '$rootScope', '$http', function ($window, $rootScope, $http) {
 
   var service = this;
 
@@ -66,20 +66,30 @@ app.service('VideosService', ['$window', '$rootScope', function ($window, $rootS
   }
 
   this.listResults = function (data, append) {
-    if (!append) {
+    if (!append)
       results.length = 0;
-    }
-    for (var i = data.items.length - 1; i >= 0; i--) {
-      results.push({
-        id: data.items[i].id.videoId,
-        title: data.items[i].snippet.title,
-        description: data.items[i].snippet.description,
-        thumbnail: data.items[i].snippet.thumbnails.default.url,
-        author: data.items[i].snippet.channelTitle
+    for (var i = data.items.length - 1; i >= 0; i--) 
+      $http.get('https://www.googleapis.com/youtube/v3/videos', {
+        params: {
+          key: 'AIzaSyCDx2qUdt0KTmNqSjErNeiYrx1tr6xVc6Q',
+          id: data.items[i].id.videoId,
+          part: 'snippet, status',
+          fields: 'items/id, items/snippet/title, items/snippet/description, items/snippet/thumbnails/default, items/snippet/channelTitle, nextPageToken, items/status/embeddable',
+          q: this.query
+        }
+      })
+      .success( function (data) {
+        if (data.items[0].status.embeddable)
+          results.push({
+            id: data.items[0].id.videoId,
+            title: data.items[0].snippet.title,
+            description: data.items[0].snippet.description,
+            thumbnail: data.items[0].snippet.thumbnails.default.url,
+            author: data.items[0].snippet.channelTitle
+          });
       });
-    }
     return results;
-  }
+  };
 
   this.getYoutube = function () {
     return youtube;
@@ -194,19 +204,16 @@ app.controller('UIController', function ($scope, $http, $interval, VideosService
           type: 'video',
           maxResults: '10',
           pageToken: isNewQuery ? '' : $scope.nextPageToken,
-          part: 'id,snippet',
-          fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle,nextPageToken',
+          part: 'id',
+          fields: 'items/id',
           q: this.query
         }
       })
       .success( function (data) {
-        if (data.items.length === 0) {
+        if (data.items.length === 0)
           $scope.label = 'No results were found!';
-        }
         VideosService.listResults(data, $scope.nextPageToken && !isNewQuery);
         $scope.nextPageToken = data.nextPageToken;
-      })
-      .error( function () {
       })
       .finally( function () {
         $scope.loadMoreButton.stopSpin();
