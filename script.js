@@ -80,8 +80,9 @@ app.service('VideosService', ['$window', '$rootScope', '$http', function ($windo
       })
       .success( function (data) {
         if (data.items[0].status.embeddable)
+          console.log(data.items[0].id);
           results.push({
-            id: data.items[0].id.videoId,
+            id: data.items[0].id,
             title: data.items[0].snippet.title,
             description: data.items[0].snippet.description,
             thumbnail: data.items[0].snippet.thumbnails.default.url,
@@ -197,6 +198,8 @@ app.controller('UIController', function ($scope, $http, $interval, VideosService
     }, 3000);
     
     $scope.search = function (isNewQuery) {
+    if ($scope.loading)
+      return;
       $scope.loading = true;
       $http.get('https://www.googleapis.com/youtube/v3/search', {
         params: {
@@ -214,7 +217,6 @@ app.controller('UIController', function ($scope, $http, $interval, VideosService
           $scope.label = 'No results were found!';
         VideosService.listResults(data, $scope.nextPageToken && !isNewQuery);
         $scope.nextPageToken = data.nextPageToken;
-        console.log($scope.nextPageToken);
       })
       .finally( function () {
         $scope.loadMoreButton.stopSpin();

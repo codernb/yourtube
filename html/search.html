@@ -5,7 +5,7 @@
         </form>
     </div>
     <ons-list class="after-search-bar">
-        <ons-list-item modifier="tappable" class="list-item-container" ng-repeat="video in results" ng-click="enterVideo(video)">
+        <ons-list-item modifier="tappable" class="list-item-container" ng-repeat="video in results | orderBy: 'title'" ng-click="enterVideo(video)">
             <ons-row>
                 <ons-col width="95px">
                     <img class="thumbnail" ng-src="{{ video.thumbnail }}">
