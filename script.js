@@ -74,7 +74,7 @@ app.service('VideosService', ['$window', '$rootScope', '$http', function ($windo
           key: 'AIzaSyCDx2qUdt0KTmNqSjErNeiYrx1tr6xVc6Q',
           id: data.items[i].id.videoId,
           part: 'snippet, status',
-          fields: 'items/id, items/snippet/title, items/snippet/description, items/snippet/thumbnails/default, items/snippet/channelTitle, nextPageToken, items/status/embeddable',
+          fields: 'items/id, items/snippet/title, items/snippet/description, items/snippet/thumbnails/default, items/snippet/channelTitle, items/status/embeddable',
           q: this.query
         }
       })
@@ -205,7 +205,7 @@ app.controller('UIController', function ($scope, $http, $interval, VideosService
           maxResults: '10',
           pageToken: isNewQuery ? '' : $scope.nextPageToken,
           part: 'id',
-          fields: 'items/id',
+          fields: 'items/id, nextPageToken',
           q: this.query
         }
       })
@@ -214,6 +214,7 @@ app.controller('UIController', function ($scope, $http, $interval, VideosService
           $scope.label = 'No results were found!';
         VideosService.listResults(data, $scope.nextPageToken && !isNewQuery);
         $scope.nextPageToken = data.nextPageToken;
+        console.log($scope.nextPageToken);
       })
       .finally( function () {
         $scope.loadMoreButton.stopSpin();
